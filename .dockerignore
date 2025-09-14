@@ -1,0 +1,6 @@
+﻿miniprogram
+node_modules
+.git
+logs
+.DS_Store
+npm-debug.log*

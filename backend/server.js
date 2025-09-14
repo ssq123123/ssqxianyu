@@ -70,6 +70,18 @@ const createDirectories = () => {
 
 createDirectories();
 
+// 数据库就绪校验中间件（未就绪直接返回 503，避免长时间阻塞）
+const ensureDbReady = (req, res, next) => {
+  if (mongoose.connection.readyState !== 1) {
+    return res.status(503).json({
+      success: false,
+      message: '服务初始化中，请稍后重试',
+      dbState: mongoose.connection.readyState
+    });
+  }
+  next();
+};
+
 // 数据库连接（带重试且不阻塞服务启动）
 let monitorStarted = false;
 const connectDB = async () => {
@@ -109,9 +121,9 @@ const connectDB = async () => {
 app.use(requestLogger);
 
 // API路由
-app.use('/api/auth', authRoutes);
-app.use('/api/monitor', authenticateToken, monitorRoutes);
-app.use('/api/products', authenticateToken, productRoutes);
+app.use('/api/auth', ensureDbReady, authRoutes);
+app.use('/api/monitor', ensureDbReady, authenticateToken, monitorRoutes);
+app.use('/api/products', ensureDbReady, authenticateToken, productRoutes);
 
 // 健康检查接口
 app.get('/api/health', (req, res) => {
