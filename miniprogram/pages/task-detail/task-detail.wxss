@@ -1,0 +1,82 @@
+/* pages/task-detail/task-detail.wxss */
+.container {
+  padding: 20rpx;
+}
+
+.task-header {
+  background: #fff;
+  border-radius: 16rpx;
+  padding: 32rpx;
+  margin-bottom: 20rpx;
+  box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.08);
+}
+
+.task-title {
+  font-size: 36rpx;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 16rpx;
+}
+
+.task-status {
+  display: flex;
+  align-items: center;
+  margin-bottom: 24rpx;
+}
+
+.status-tag {
+  margin-right: 16rpx;
+}
+
+.task-stats {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 24rpx;
+}
+
+.stat-item {
+  text-align: center;
+}
+
+.stat-number {
+  font-size: 48rpx;
+  font-weight: 600;
+  color: #1890ff;
+  line-height: 1.2;
+}
+
+.stat-label {
+  font-size: 24rpx;
+  color: #999;
+  margin-top: 8rpx;
+}
+
+.keywords-section {
+  background: #fff;
+  border-radius: 16rpx;
+  padding: 32rpx;
+  margin-bottom: 20rpx;
+  box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.08);
+}
+
+.section-title {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 24rpx;
+}
+
+.keyword-tag {
+  margin-right: 16rpx;
+  margin-bottom: 16rpx;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 20rpx;
+  margin-top: 40rpx;
+}
+
+.action-buttons .van-button {
+  flex: 1;
+}

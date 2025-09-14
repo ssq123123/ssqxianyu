@@ -1,0 +1,206 @@
+<!--监控面板首页-->
+<view class="container">
+  <!-- 自定义导航栏 -->
+  <view class="custom-navbar" style="height: {{statusBarHeight + 44}}px;">
+    <view class="navbar-content" style="padding-top: {{statusBarHeight}}px;">
+      <view class="navbar-title">闲鱼监控</view>
+      <view class="navbar-actions">
+        <view class="socket-status" wx:if="{{socketConnected}}" bind:tap="onShowStats">
+          <van-icon name="wifi" color="#52c41a" size="18px" />
+        </view>
+        <view class="socket-status offline" wx:else bind:tap="onReconnectSocket">
+          <van-icon name="warning" color="#ff4d4f" size="18px" />
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 页面内容 -->
+  <scroll-view 
+    class="page-scroll" 
+    scroll-y="{{true}}" 
+    enhanced="{{true}}"
+    refresher-enabled="{{true}}"
+    refresher-triggered="{{refreshing}}"
+    bind:refresherrefresh="refreshData"
+    style="padding-top: {{statusBarHeight + 44}}px;">
+    
+    <!-- Cookie状态提醒 -->
+    <view class="cookie-notice" wx:if="{{!cookieStatus.hasCookie || cookieStatus.isExpired}}">
+      <van-notice-bar
+        left-icon="warning"
+        text="{{cookieStatus.hasCookie ? 'Cookie已过期，请重新设置' : '请先设置Cookie以启用监控功能'}}"
+        color="#fa8c16"
+        background="#fff7e6"
+        bind:click="onSetCookie"
+      />
+    </view>
+
+    <!-- 统计卡片 -->
+    <view class="stats-section">
+      <view class="stats-container">
+        <view class="stats-item" bind:tap="onViewAllProducts">
+          <view class="stats-number primary">{{totalProductsFound}}</view>
+          <view class="stats-label">发现商品</view>
+        </view>
+        <view class="stats-item" bind:tap="onViewAlerts">
+          <view class="stats-number error">{{totalLowPriceAlerts}}</view>
+          <view class="stats-label">低价预警</view>
+        </view>
+        <view class="stats-item" bind:tap="onShowStats">
+          <view class="stats-number success">{{activeTaskCount}}</view>
+          <view class="stats-label">运行任务</view>
+        </view>
+        <view class="stats-item" bind:tap="onViewHistory">
+          <view class="stats-number warning">{{todayStats.completedRounds}}</view>
+          <view class="stats-label">完成轮次</view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 快速操作 -->
+    <view class="quick-actions">
+      <view class="card">
+        <view class="card-header">
+          <view class="card-title">快速操作</view>
+        </view>
+        <view class="action-buttons">
+          <van-button
+            type="primary"
+            size="normal"
+            icon="plus"
+            bind:click="onCreateTask"
+            class="action-btn">
+            创建任务
+          </van-button>
+          <van-button
+            type="default"
+            size="normal"
+            icon="search"
+            bind:click="onQuickCreate"
+            class="action-btn">
+            快速监控
+          </van-button>
+        </view>
+      </view>
+    </view>
+
+    <!-- 活动任务列表 -->
+    <view class="tasks-section" wx:if="{{monitorTasks.length > 0}}">
+      <view class="card">
+        <view class="card-header">
+          <view class="card-title">运行中的任务</view>
+          <view class="card-extra">{{activeTaskCount}}/{{monitorTasks.length}}</view>
+        </view>
+        <view class="task-list">
+          <view 
+            class="task-item" 
+            wx:for="{{monitorTasks}}" 
+            wx:key="id"
+            bind:tap="onTaskDetail"
+            data-taskid="{{item.id}}">
+            
+            <view class="task-info">
+              <view class="task-name">{{item.name}}</view>
+              <view class="task-meta">
+                <view class="task-keywords">
+                  <van-tag 
+                    wx:for="{{item.keywords}}" 
+                    wx:for-item="keyword" 
+                    wx:for-index="kidx"
+                    wx:key="kidx"
+                    wx:if="{{keyword.enabled}}"
+                    type="primary" 
+                    size="mini">
+                    {{keyword.keyword}}
+                  </van-tag>
+                </view>
+                <view class="task-stats">
+                  发现 {{item.stats.totalNewProducts || 0}} · 预警 {{item.stats.totalLowPriceAlerts || 0}}
+                </view>
+              </view>
+            </view>
+
+            <view class="task-actions" catch:tap="onToggleTask" data-taskid="{{item.id}}" data-status="{{item.status}}">
+              <van-tag 
+                type="{{item.status === 'running' ? 'success' : 'default'}}"
+                size="medium">
+                {{item.status === 'running' ? '运行中' : '已停止'}}
+              </van-tag>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 空状态 -->
+    <view class="empty-tasks" wx:if="{{monitorTasks.length === 0 && !loading}}">
+      <view class="empty-state">
+        <van-empty description="还没有监控任务">
+          <van-button 
+            type="primary" 
+            size="small"
+            bind:click="onCreateTask">
+            创建第一个任务
+          </van-button>
+        </van-empty>
+      </view>
+    </view>
+
+    <!-- 最近活动 -->
+    <view class="activities-section" wx:if="{{recentActivities.length > 0}}">
+      <view class="card">
+        <view class="card-header">
+          <view class="card-title">最近活动</view>
+          <view class="card-extra" bind:tap="onViewHistory">查看更多</view>
+        </view>
+        <view class="activity-list">
+          <view 
+            class="activity-item {{item.type}}" 
+            wx:for="{{recentActivities}}" 
+            wx:key="time"
+            bind:tap="onActivityTap"
+            data-index="{{index}}">
+            
+            <view class="activity-icon">
+              <van-icon 
+                name="{{item.type === 'newProducts' ? 'shop-o' : item.type === 'lowPriceAlert' ? 'warning' : 'clock-o'}}" 
+                size="16px"
+                color="{{item.type === 'newProducts' ? '#1890ff' : item.type === 'lowPriceAlert' ? '#ff4d4f' : '#52c41a'}}"
+              />
+            </view>
+            
+            <view class="activity-content">
+              <view class="activity-title">{{item.title}}</view>
+              <view class="activity-desc">{{item.content}}</view>
+              <view class="activity-time">{{item.time}}</view>
+            </view>
+
+            <view class="activity-count" wx:if="{{item.count}}">
+              <van-tag type="{{item.type === 'lowPriceAlert' ? 'danger' : 'primary'}}" size="mini">
+                {{item.count}}
+              </van-tag>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 加载状态 -->
+    <view class="loading-container" wx:if="{{loading}}">
+      <van-loading type="spinner" size="24px" />
+      <view class="loading-text">加载中...</view>
+    </view>
+
+    <!-- 底部安全区域 -->
+    <view class="safe-area-bottom"></view>
+  </scroll-view>
+
+  <!-- 悬浮操作按钮 -->
+  <view class="fab" bind:tap="onCreateTask" wx:if="{{cookieStatus.hasCookie && !cookieStatus.isExpired}}">
+    <van-icon name="plus" size="24px" color="white" />
+  </view>
+</view>
+
+<!-- Toast组件 -->
+<van-toast id="van-toast" />

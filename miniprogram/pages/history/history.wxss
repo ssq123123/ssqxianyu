@@ -1,0 +1,31 @@
+/* pages/history/history.wxss */
+.container {
+  padding: 20rpx;
+}
+
+.history-item {
+  background: #fff;
+  border-radius: 16rpx;
+  margin-bottom: 20rpx;
+  padding: 32rpx;
+  box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.08);
+}
+
+.history-title {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 16rpx;
+}
+
+.history-meta {
+  font-size: 24rpx;
+  color: #999;
+  margin-bottom: 16rpx;
+}
+
+.history-content {
+  font-size: 28rpx;
+  color: #666;
+  line-height: 1.6;
+}

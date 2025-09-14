@@ -1,0 +1,437 @@
+/* 登录页面样式 */
+
+.container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  display: flex;
+  flex-direction: column;
+}
+
+/* 登录内容 */
+.login-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 60rpx 40rpx 40rpx;
+}
+
+/* Logo区域 */
+.logo-section {
+  text-align: center;
+  margin-bottom: 80rpx;
+  margin-top: 60rpx;
+}
+
+.logo {
+  width: 120rpx;
+  height: 120rpx;
+  margin-bottom: 32rpx;
+  border-radius: 24rpx;
+  background: white;
+  padding: 16rpx;
+  box-shadow: 0 8rpx 32rpx rgba(0, 0, 0, 0.1);
+}
+
+.app-name {
+  font-size: 48rpx;
+  font-weight: 600;
+  color: white;
+  margin-bottom: 16rpx;
+  text-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.1);
+}
+
+.app-desc {
+  font-size: 28rpx;
+  color: rgba(255, 255, 255, 0.8);
+  line-height: 1.4;
+}
+
+/* 登录表单 */
+.login-form {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.form-section {
+  background: white;
+  border-radius: 24rpx;
+  padding: 48rpx 40rpx;
+  box-shadow: 0 8rpx 32rpx rgba(0, 0, 0, 0.1);
+  margin-bottom: 40rpx;
+}
+
+.login-tip {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12rpx;
+  margin-bottom: 40rpx;
+  padding: 16rpx;
+  background: #f0f9ff;
+  border-radius: 12rpx;
+  color: #1890ff;
+  font-size: 26rpx;
+}
+
+.login-btn {
+  margin-bottom: 32rpx;
+  height: 88rpx !important;
+  border-radius: 16rpx !important;
+  font-size: 32rpx !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 16rpx;
+}
+
+.login-btn-old {
+  width: 100%;
+  height: 88rpx;
+  background: #1890ff;
+  color: white;
+  border: none;
+  border-radius: 16rpx;
+  font-size: 32rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16rpx;
+  margin-bottom: 32rpx;
+}
+
+.login-btn-old::after {
+  border: none;
+}
+
+.agreement-section {
+  margin-bottom: 24rpx;
+}
+
+.agreement-checkbox {
+  display: flex;
+  align-items: flex-start;
+  gap: 12rpx;
+}
+
+.agreement-text {
+  font-size: 24rpx;
+  color: #666;
+  line-height: 1.5;
+  flex: 1;
+}
+
+.link {
+  color: #1890ff;
+  text-decoration: underline;
+}
+
+.cookie-entry {
+  margin-top: 16rpx;
+}
+
+/* 功能介绍 */
+.features-section {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 24rpx;
+  padding: 32rpx;
+  backdrop-filter: blur(10rpx);
+}
+
+.feature-item {
+  display: flex;
+  align-items: center;
+  gap: 24rpx;
+  margin-bottom: 32rpx;
+  color: white;
+}
+
+.feature-item:last-child {
+  margin-bottom: 0;
+}
+
+.feature-text {
+  flex: 1;
+}
+
+.feature-title {
+  font-size: 30rpx;
+  font-weight: 500;
+  margin-bottom: 8rpx;
+}
+
+.feature-desc {
+  font-size: 24rpx;
+  opacity: 0.8;
+}
+
+/* Cookie设置内容 */
+.cookie-content {
+  flex: 1;
+  background: #f5f5f5;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Cookie头部 */
+.cookie-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24rpx 32rpx;
+  background: white;
+  border-bottom: 2rpx solid #f0f0f0;
+}
+
+.header-title {
+  font-size: 36rpx;
+  font-weight: 600;
+  color: #333;
+}
+
+.header-right {
+  width: 40rpx;
+}
+
+/* Cookie状态卡片 */
+.cookie-status-card {
+  margin: 24rpx;
+  background: white;
+  border-radius: 16rpx;
+  padding: 32rpx;
+  box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.08);
+}
+
+.status-info {
+  display: flex;
+  align-items: center;
+  gap: 24rpx;
+}
+
+.status-text {
+  flex: 1;
+}
+
+.status-title {
+  font-size: 32rpx;
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 8rpx;
+}
+
+.status-desc {
+  font-size: 24rpx;
+  color: #666;
+}
+
+/* Cookie表单 */
+.cookie-form {
+  flex: 1;
+  margin: 0 24rpx;
+  background: white;
+  border-radius: 16rpx;
+  padding: 32rpx;
+  box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.08);
+}
+
+.form-item {
+  margin-bottom: 32rpx;
+}
+
+.form-label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16rpx;
+  font-size: 28rpx;
+  font-weight: 500;
+  color: #333;
+}
+
+.cookie-input {
+  border: 2rpx solid #d9d9d9;
+  border-radius: 12rpx;
+  padding: 0 !important;
+}
+
+.form-actions {
+  display: flex;
+  gap: 16rpx;
+  margin-top: 16rpx;
+  justify-content: flex-end;
+}
+
+/* 自动获取Cookie */
+.auto-cookie-section {
+  margin-bottom: 32rpx;
+  padding: 24rpx;
+  background: #f8f9fa;
+  border-radius: 12rpx;
+}
+
+.section-title {
+  font-size: 28rpx;
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 16rpx;
+}
+
+.auto-tip {
+  display: flex;
+  align-items: center;
+  gap: 8rpx;
+  margin-top: 12rpx;
+  font-size: 22rpx;
+  color: #999;
+}
+
+/* 保存区域 */
+.save-section {
+  border-top: 2rpx solid #f0f0f0;
+  padding-top: 32rpx;
+}
+
+/* Cookie教程 */
+.guide-section {
+  margin: 24rpx;
+  background: white;
+  border-radius: 16rpx;
+  padding: 32rpx;
+  box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.08);
+}
+
+.guide-title {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 24rpx;
+}
+
+.guide-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 20rpx;
+}
+
+.guide-step {
+  display: flex;
+  align-items: flex-start;
+  gap: 16rpx;
+}
+
+.step-number {
+  width: 40rpx;
+  height: 40rpx;
+  background: #1890ff;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22rpx;
+  font-weight: 500;
+  flex-shrink: 0;
+}
+
+.step-content {
+  flex: 1;
+  font-size: 26rpx;
+  color: #666;
+  line-height: 1.5;
+  padding-top: 6rpx;
+}
+
+/* WebView遮罩 */
+.webview-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: white;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+}
+
+.webview-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24rpx 32rpx;
+  background: #4A90E2;
+  color: white;
+}
+
+.webview-title {
+  font-size: 32rpx;
+  font-weight: 500;
+}
+
+.cookie-webview {
+  flex: 1;
+}
+
+/* 响应式适配 */
+@media screen and (max-width: 375px) {
+  .logo {
+    width: 100rpx;
+    height: 100rpx;
+  }
+  
+  .app-name {
+    font-size: 42rpx;
+  }
+  
+  .login-btn,
+  .login-btn-old {
+    height: 80rpx;
+    font-size: 28rpx;
+  }
+  
+  .form-section {
+    padding: 40rpx 32rpx;
+  }
+}
+
+/* 深色模式适配 */
+@media (prefers-color-scheme: dark) {
+  .form-section,
+  .cookie-status-card,
+  .cookie-form,
+  .guide-section {
+    background: #2a2a2a;
+    border-color: #3a3a3a;
+  }
+  
+  .cookie-content {
+    background: #1a1a1a;
+  }
+  
+  .cookie-header {
+    background: #2a2a2a;
+    border-bottom-color: #3a3a3a;
+  }
+  
+  .header-title,
+  .status-title,
+  .section-title,
+  .guide-title,
+  .form-label {
+    color: #e0e0e0;
+  }
+  
+  .status-desc,
+  .step-content {
+    color: #b0b0b0;
+  }
+  
+  .auto-cookie-section {
+    background: #3a3a3a;
+  }
+  
+  .login-tip {
+    background: rgba(24, 144, 255, 0.1);
+  }
+}

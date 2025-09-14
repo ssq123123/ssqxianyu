@@ -1,0 +1,27 @@
+<view class="container">
+  <!-- 搜索与筛选 -->
+  <view class="search-section">
+    <van-search placeholder="输入关键词搜索" show-action bind:search="onSearch" />
+    <van-dropdown-menu>
+      <van-dropdown-item value="all" options="{{priceOptions}}" />
+      <van-dropdown-item value="time" options="{{sortOptions}}" />
+    </van-dropdown-menu>
+  </view>
+
+  <!-- 商品列表（示例数据） -->
+  <block wx:if="{{products.length > 0}}">
+    <view wx:for="{{products}}" wx:key="id" class="product-card" bind:tap="onTapProduct" data-id="{{item.id}}">
+      <view class="flex">
+        <image class="product-image" src="{{item.image}}" mode="aspectFill" />
+        <view class="product-info">
+          <view class="product-title">{{item.title}}</view>
+          <view class="product-price">¥{{item.price}}</view>
+          <view class="product-meta">{{item.location}} · {{item.time}}</view>
+        </view>
+      </view>
+    </view>
+  </block>
+
+  <!-- 空状态 -->
+  <van-empty wx:else description="暂无商品，试试搜索关键词" />
+</view>

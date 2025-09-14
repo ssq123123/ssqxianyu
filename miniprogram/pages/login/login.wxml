@@ -1,0 +1,262 @@
+<!--登录页面-->
+<view class="container">
+  <!-- 登录模式 -->
+  <view class="login-content" wx:if="{{pageAction === 'login'}}">
+    <!-- Logo区域 -->
+    <view class="logo-section">
+      <image class="logo" src="/images/logo.png" mode="aspectFit" />
+      <view class="app-name">闲鱼监控系统</view>
+      <view class="app-desc">智能监控，精准发现好商品</view>
+    </view>
+
+    <!-- 登录表单 -->
+    <view class="login-form">
+      <view class="form-section">
+        <view class="login-tip">
+          <van-icon name="info-o" size="16px" color="#1890ff" />
+          <text>使用微信账号登录，安全可靠</text>
+        </view>
+
+        <!-- 登录按钮 -->
+        <van-button
+          wx:if="{{canIUseGetUserProfile}}"
+          type="primary"
+          size="large"
+          loading="{{loading}}"
+          block
+          bind:click="getUserProfile"
+          class="login-btn">
+          <van-icon name="wechat" size="20px" />
+          <text>微信登录</text>
+        </van-button>
+
+        <!-- 兼容旧版本 -->
+        <button 
+          wx:else
+          class="login-btn-old"
+          open-type="getUserInfo"
+          bindgetuserinfo="onGetUserInfo"
+          loading="{{loading}}">
+          <van-icon name="wechat" size="20px" />
+          <text>微信登录</text>
+        </button>
+
+        <!-- 协议勾选 -->
+        <view class="agreement-section">
+          <checkbox-group bindchange="onAgreementChange">
+            <label class="agreement-checkbox">
+              <checkbox 
+                value="agree"
+                checked="{{agreementChecked}}" 
+                color="#1890ff" />
+              <text class="agreement-text">
+                我已阅读并同意
+                <text class="link" bind:tap="onViewAgreement">《用户协议》</text>
+                和
+                <text class="link" bind:tap="onViewPrivacy">《隐私政策》</text>
+              </text>
+            </label>
+          </checkbox-group>
+        </view>
+
+        <!-- Cookie设置入口 -->
+        <view class="cookie-entry">
+          <van-button 
+            type="default" 
+            size="normal" 
+            block
+            bind:click="onSwitchToCookie">
+            Cookie设置
+          </van-button>
+        </view>
+      </view>
+    </view>
+
+    <!-- 功能介绍 -->
+    <view class="features-section">
+      <view class="feature-item">
+        <van-icon name="search" size="24px" color="#1890ff" />
+        <view class="feature-text">
+          <view class="feature-title">智能监控</view>
+          <view class="feature-desc">多关键词实时监控</view>
+        </view>
+      </view>
+      <view class="feature-item">
+        <van-icon name="warning" size="24px" color="#ff4d4f" />
+        <view class="feature-text">
+          <view class="feature-title">低价预警</view>
+          <view class="feature-desc">第一时间发现好价商品</view>
+        </view>
+      </view>
+      <view class="feature-item">
+        <van-icon name="chart-trending-o" size="24px" color="#52c41a" />
+        <view class="feature-text">
+          <view class="feature-title">数据分析</view>
+          <view class="feature-desc">详细的监控统计报告</view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- Cookie设置模式 -->
+  <view class="cookie-content" wx:if="{{pageAction === 'cookie'}}">
+    <!-- 头部导航 -->
+    <view class="cookie-header">
+      <van-icon 
+        name="arrow-left" 
+        size="20px" 
+        bind:click="onSwitchToLogin"
+        wx:if="{{!cookieStatus.hasCookie}}" />
+      <van-icon 
+        name="arrow-left" 
+        size="20px" 
+        bind:click="onBackHome"
+        wx:else />
+      <view class="header-title">Cookie设置</view>
+      <view class="header-right">
+        <van-icon 
+          name="question-o" 
+          size="20px" 
+          bind:click="onShowCookieGuide" />
+      </view>
+    </view>
+
+    <!-- Cookie状态 -->
+    <view class="cookie-status-card">
+      <view class="status-info">
+        <van-icon 
+          name="{{cookieStatus.hasCookie && !cookieStatus.isExpired ? 'passed' : 'warning'}}" 
+          size="24px"
+          color="{{cookieStatus.hasCookie && !cookieStatus.isExpired ? '#52c41a' : '#fa8c16'}}" />
+        <view class="status-text">
+          <view class="status-title">
+            {{cookieStatus.hasCookie ? (cookieStatus.isExpired ? 'Cookie已过期' : 'Cookie有效') : '未设置Cookie'}}
+          </view>
+          <view class="status-desc">
+            {{cookieStatus.hasCookie ? (cookieStatus.isExpired ? '请重新设置Cookie' : '还有' + cookieStatus.daysUntilExpire + '天过期') : '设置Cookie以启用监控功能'}}
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- Cookie输入 -->
+    <view class="cookie-form">
+      <view class="form-item">
+        <view class="form-label">
+          <text>Cookie内容</text>
+          <van-button 
+            size="mini" 
+            type="default"
+            bind:click="onPasteCookie">
+            粘贴
+          </van-button>
+        </view>
+        <van-field
+          value="{{cookieText}}"
+          type="textarea"
+          autosize
+          maxlength="5000"
+          placeholder="请输入从浏览器复制的Cookie内容..."
+          bind:change="onCookieInput"
+          show-word-limit
+          class="cookie-input"
+        />
+        <view class="form-actions">
+          <van-button 
+            size="small" 
+            type="default"
+            bind:click="onClearCookie">
+            清空
+          </van-button>
+          <van-button 
+            size="small" 
+            type="primary"
+            bind:click="onTestCookie">
+            测试
+          </van-button>
+        </view>
+      </view>
+
+      <!-- 自动获取Cookie -->
+      <view class="auto-cookie-section">
+        <view class="section-title">自动获取Cookie（实验功能）</view>
+        <van-button 
+          type="info" 
+          size="normal"
+          icon="globe-o"
+          block
+          bind:click="onOpenWebView">
+          打开闲鱼网站登录
+        </van-button>
+        <view class="auto-tip">
+          <van-icon name="info-o" size="14px" color="#999" />
+          <text>在网站中登录后，Cookie将自动获取</text>
+        </view>
+      </view>
+
+      <!-- 保存按钮 -->
+      <view class="save-section">
+        <van-button
+          type="primary"
+          size="large"
+          loading="{{loading}}"
+          disabled="{{!cookieText}}"
+          block
+          bind:click="onSaveCookie">
+          保存Cookie
+        </van-button>
+      </view>
+    </view>
+
+    <!-- Cookie获取教程 -->
+    <view class="guide-section">
+      <view class="guide-title">Cookie获取教程</view>
+      <view class="guide-steps">
+        <view class="guide-step">
+          <view class="step-number">1</view>
+          <view class="step-content">在浏览器中打开闲鱼网站并登录</view>
+        </view>
+        <view class="guide-step">
+          <view class="step-number">2</view>
+          <view class="step-content">按F12打开开发者工具</view>
+        </view>
+        <view class="guide-step">
+          <view class="step-number">3</view>
+          <view class="step-content">点击Network(网络)标签页</view>
+        </view>
+        <view class="guide-step">
+          <view class="step-number">4</view>
+          <view class="step-content">刷新页面，找到第一个请求</view>
+        </view>
+        <view class="guide-step">
+          <view class="step-number">5</view>
+          <view class="step-content">在Headers中找到Cookie并复制</view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- WebView遮罩 -->
+  <view class="webview-overlay" wx:if="{{showWebView}}">
+    <view class="webview-header">
+      <view class="webview-title">请在此页面登录闲鱼账号</view>
+      <van-button 
+        size="mini" 
+        type="default"
+        bind:click="onCloseWebView">
+        关闭
+      </van-button>
+    </view>
+    <web-view 
+      src="{{webViewUrl}}"
+      bindmessage="onWebViewMessage"
+      class="cookie-webview">
+    </web-view>
+  </view>
+</view>
+
+<!-- Toast组件 -->
+<van-toast id="van-toast" />
+
+<!-- 弹窗组件 -->
+<van-dialog id="van-dialog" />

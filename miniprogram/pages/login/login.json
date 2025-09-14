@@ -1,0 +1,12 @@
+{
+  "navigationBarTitleText": "用户登录",
+  "navigationStyle": "custom",
+  "disableScroll": true,
+  "usingComponents": {
+    "van-button": "@vant/weapp/button/index",
+    "van-icon": "@vant/weapp/icon/index",
+    "van-field": "@vant/weapp/field/index",
+    "van-toast": "@vant/weapp/toast/index",
+    "van-dialog": "@vant/weapp/dialog/index"
+  }
+}

@@ -1,0 +1,62 @@
+<view class="container">
+  <view class="form-section">
+    <view class="form-title">创建监控任务</view>
+
+    <view class="form-item">
+      <view class="form-label">任务名称</view>
+      <van-field value="{{formData.name}}" placeholder="请输入任务名称" data-field="name" bind:change="onFieldChange" />
+    </view>
+
+    <view class="form-item">
+      <view class="form-label">关键词</view>
+      <view wx:for="{{formData.keywords}}" wx:key="index" class="keyword-item">
+        <van-field class="keyword-input" value="{{item.keyword}}" placeholder="商品关键词"
+          data-index="{{index}}" bind:change="onKeywordChange" />
+        <van-switch size="18px" checked="{{item.enabled}}" data-index="{{index}}" bind:change="onKeywordToggle" />
+        <van-button size="mini" type="default" data-index="{{index}}" bind:click="onDeleteKeyword">删除</van-button>
+      </view>
+      <view class="keyword-actions">
+        <van-button size="small" type="primary" icon="plus" bind:click="onAddKeyword">添加关键词</van-button>
+        <van-button size="small" type="default" bind:click="onImportHistory">从历史导入</van-button>
+      </view>
+      <view wx:if="{{errors.keywords}}" class="text-error text-small mt-small">{{errors.keywords}}</view>
+    </view>
+
+    <view class="form-item">
+      <view class="form-label">监控间隔（秒）</view>
+      <van-stepper value="{{formData.interval}}" min="10" max="600" step="10" data-field="interval" bind:change="onStepperChange" />
+    </view>
+
+    <view class="form-item">
+      <view class="form-label">监控页数</view>
+      <van-stepper value="{{formData.monitorPages}}" min="1" max="10" step="1" data-field="monitorPages" bind:change="onStepperChange" />
+    </view>
+
+    <view class="form-item">
+      <view class="form-label">价格范围（¥）</view>
+      <view class="flex-between">
+        <van-field class="keyword-input" value="{{formData.minPrice}}" type="number" placeholder="最低价" data-field="minPrice" bind:change="onFieldChange" />
+        <van-field class="keyword-input" value="{{formData.maxPrice}}" type="number" placeholder="最高价" data-field="maxPrice" bind:change="onFieldChange" />
+      </view>
+      <view class="mt-small">
+        <van-tag wx:for="{{quickPrices}}" wx:key="label" plain type="primary" size="small" class="mr-8" data-min="{{item.min}}" data-max="{{item.max}}" bind:tap="onQuickPrice">{{item.label}}</van-tag>
+      </view>
+      <view wx:if="{{errors.priceRange}}" class="text-error text-small mt-small">{{errors.priceRange}}</view>
+    </view>
+
+    <view class="form-item">
+      <view class="form-label">低价预警</view>
+      <van-switch size="18px" checked="{{formData.enableAlert}}" data-field="enableAlert" bind:change="onSwitchChange" />
+      <view wx:if="{{formData.enableAlert}}" class="mt-small">
+        <van-field value="{{formData.alertPrice}}" type="number" placeholder="预警价格" data-field="alertPrice" bind:change="onFieldChange" />
+        <view wx:if="{{errors.alertPrice}}" class="text-error text-small mt-small">{{errors.alertPrice}}</view>
+      </view>
+    </view>
+
+    <view class="action-buttons">
+      <van-button type="primary" bind:click="onSaveTask">保存任务</van-button>
+      <van-button type="default" bind:click="onPreviewTask">预览</van-button>
+      <van-button type="default" bind:click="onTestMonitor">测试</van-button>
+    </view>
+  </view>
+</view>

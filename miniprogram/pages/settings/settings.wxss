@@ -1,0 +1,57 @@
+/* pages/settings/settings.wxss */
+.container {
+  padding: 20rpx;
+}
+
+.settings-section {
+  background: #fff;
+  border-radius: 16rpx;
+  margin-bottom: 20rpx;
+  overflow: hidden;
+  box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.08);
+}
+
+.section-title {
+  font-size: 28rpx;
+  color: #999;
+  padding: 32rpx 32rpx 16rpx;
+  background: #f8f9fa;
+}
+
+.setting-item {
+  display: flex;
+  align-items: center;
+  padding: 32rpx;
+  border-bottom: 2rpx solid #f0f0f0;
+}
+
+.setting-item:last-child {
+  border-bottom: none;
+}
+
+.setting-content {
+  flex: 1;
+}
+
+.setting-title {
+  font-size: 30rpx;
+  color: #333;
+  margin-bottom: 4rpx;
+}
+
+.setting-desc {
+  font-size: 24rpx;
+  color: #999;
+}
+
+.setting-action {
+  margin-left: 16rpx;
+}
+
+.danger-section .setting-item {
+  color: #ff4d4f;
+}
+
+.danger-section .setting-title {
+  color: #ff4d4f;
+}
