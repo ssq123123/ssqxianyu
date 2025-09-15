@@ -4,6 +4,7 @@ const axios = require('axios');
 const User = require('../models/User');
 const cryptoUtil = require('../utils/crypto');
 const logger = require('../utils/logger');
+const { authenticateToken } = require('../middleware/auth');
 
 const router = express.Router();
 
@@ -210,7 +211,7 @@ router.post('/refresh', async (req, res) => {
  * 更新Cookie
  * POST /api/auth/cookie
  */
-router.post('/cookie', async (req, res) => {
+router.post('/cookie', authenticateToken, async (req, res) => {
   try {
     const { cookie } = req.body;
     const userId = req.user?.userId;
@@ -274,7 +275,7 @@ router.post('/cookie', async (req, res) => {
  * 获取Cookie状态
  * GET /api/auth/cookie/status
  */
-router.get('/cookie/status', async (req, res) => {
+router.get('/cookie/status', authenticateToken, async (req, res) => {
   try {
     const userId = req.user?.userId;
 
@@ -321,7 +322,7 @@ router.get('/cookie/status', async (req, res) => {
  * 获取用户信息
  * GET /api/auth/profile
  */
-router.get('/profile', async (req, res) => {
+router.get('/profile', authenticateToken, async (req, res) => {
   try {
     const userId = req.user?.userId;
 
@@ -373,7 +374,7 @@ router.get('/profile', async (req, res) => {
  * 更新用户信息
  * PUT /api/auth/profile
  */
-router.put('/profile', async (req, res) => {
+router.put('/profile', authenticateToken, async (req, res) => {
   try {
     const userId = req.user?.userId;
     const { nickname, avatarUrl } = req.body;
@@ -428,7 +429,7 @@ router.put('/profile', async (req, res) => {
  * 更新用户设置
  * PUT /api/auth/settings
  */
-router.put('/settings', async (req, res) => {
+router.put('/settings', authenticateToken, async (req, res) => {
   try {
     const userId = req.user?.userId;
     const { settings } = req.body;
@@ -488,7 +489,7 @@ router.put('/settings', async (req, res) => {
  * 获取用户统计信息
  * GET /api/auth/stats
  */
-router.get('/stats', async (req, res) => {
+router.get('/stats', authenticateToken, async (req, res) => {
   try {
     const userId = req.user?.userId;
 
@@ -575,7 +576,7 @@ router.get('/stats', async (req, res) => {
  * 注销登录
  * POST /api/auth/logout
  */
-router.post('/logout', async (req, res) => {
+router.post('/logout', authenticateToken, async (req, res) => {
   try {
     const userId = req.user?.userId;
 

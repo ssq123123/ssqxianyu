@@ -191,6 +191,8 @@ io.on('connection', (socket) => {
 
 // 初始化监控服务
 const monitorService = new MonitorService(io);
+// 挂载到 app.locals，供路由中访问
+app.locals.monitorService = monitorService;
 
 // 启动服务器
 const PORT = process.env.PORT || 3000;
