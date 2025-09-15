@@ -372,6 +372,7 @@ class MonitorService {
       for (const product of products) {
         await Product.create({
           taskId,
+          userId: task.userId,
           itemId: product.itemId,
           title: product.description,
           price: this.xianyuService.parsePrice(product.price),

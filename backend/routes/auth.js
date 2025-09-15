@@ -535,8 +535,9 @@ router.get('/stats', authenticateToken, async (req, res) => {
       ])
     ]);
 
+    const safeUserStats = (user.stats && typeof user.stats.toObject === 'function') ? user.stats.toObject() : (user.stats || {});
     const detailedStats = {
-      ...user.stats.toObject(),
+      ...safeUserStats,
       tasks: taskStats.reduce((acc, stat) => {
         acc[stat._id] = {
           count: stat.count,
